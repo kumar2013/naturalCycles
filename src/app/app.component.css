@@ -1,0 +1,9 @@
+.nc-form-wrapper {
+    border: 1px solid lightgrey;
+    padding: 50px;
+    margin-top: 100px;
+}
+
+button {
+    margin-top: 20px;
+}
