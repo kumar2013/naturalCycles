@@ -2,21 +2,31 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3 nc-form-wrapper">
             <form [formGroup]="loginForm" (ngSubmit)="submitForm(loginForm.value)" class="form-horizontal">
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" placeholder="Email" [formControl]="loginForm.controls['email']">
+                <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['email'].valid && loginForm.controls['email'].touched}">
+                    <div *ngIf="show" class="alert alert-warning">Did you mean: {{emailSuggestion}} ?</div>
+                    <div class="row">
+                        <label class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" placeholder="Email" [formControl]="loginForm.controls['email']">
+                        </div>
                     </div>
+                    <div *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched" class="alert alert-danger">Email should not be empty.</div>
+                    <div *ngIf="loginForm.controls['email'].hasError('invalidEmailAddress') && loginForm.controls['email'].touched" class="alert alert-danger">Invalid email address.</div>
                 </div>
-                <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" placeholder="Password" [formControl]="loginForm.controls['password']">
+                <div class="form-group" [ngClass]="{'has-error':!loginForm.controls['password'].valid && loginForm.controls['password'].touched}">
+                    <div class="row">
+                        <label class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" placeholder="Password" [formControl]="loginForm.controls['password']">
+                        </div>
                     </div>
+                    <div *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched" class="alert alert-danger">Password should not be empty.</div>
+                    <div *ngIf="loginForm.controls['password'].hasError('minlength') && loginForm.controls['password'].touched " class="alert alert-danger ">Password must be at least 6 characters long.</div>
+                    <div *ngIf="loginForm.controls['password'].hasError('maxlength') && loginForm.controls['password'].touched " class="alert alert-danger ">Password cannot exceed 12 characters.</div>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-12 text-center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group ">
+                    <div class="col-sm-12 text-center ">
+                        <button type="submit " class="btn btn-primary " [disabled]="!loginForm.valid || show">Submit</button>
                     </div>
                 </div>
             </form>
